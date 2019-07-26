@@ -7,6 +7,8 @@
 #include <sys/stat.h>
 #include <assert.h>
 #include <iostream>
+#include <string>
+#include <boost/algorithm/string.hpp> 
 
 class Reader{
     private:

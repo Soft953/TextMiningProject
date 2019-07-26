@@ -20,7 +20,13 @@ void Reader::readFile(const char *filename)
 
 
     auto data = static_cast<char*>(mmappedData);
-    std::cout << data << std::endl;
+
+    std::string data_str = std::string(data);
+
+    //std::cout << data_str << std::endl;
+
+    //std::cout << data << std::endl;
+    
     //Write the mmapped data to stdout (= FD #1)
     //if ( write(1, mmappedData, filesize) < 0) {
     //    return;
