@@ -14,6 +14,7 @@ set(CMAKE_CXX_FLAGS_DEBUG "-g")
 
 set(SRC
     src/main.cc
+    src/reader.cc
 )
 
 link_directories(${CMAKE_SOURCE_DIR}/src)
