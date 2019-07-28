@@ -133,11 +133,97 @@ void Ptrie::print_ptrie(){
     }
 }
 
-int main(){
+void serializeRec(std::string& res, const std::shared_ptr<Node>& node) {
+    //std::string res = std::string("");
+    for(auto const& [key, val] : node->children) {
+        res += key;
+        if(val->getFreq() > 0)
+            res += "-" + std::to_string(val->getFreq());
+        res += ";";
+        if(val->children.size() >= 1)
+            serializeRec(res, val);
+        res += ")";
+    }
+}
+
+std::string Ptrie::serialize() {
+    std::string res = std::string("");
+    for(auto const& [key, val] : this->root) {
+        res += key;
+        if(val->getFreq() > 0)
+            res += "-" + std::to_string(val->getFreq());
+        res += ";";
+        if(val->children.size() >= 1)
+            serializeRec(res, val);
+        res += ")";
+    }
+    return res;
+}
+
+void Ptrie::deSerialize(std::string str) {
+    std::vector<std::string> splited_str; 
+    boost::split(splited_str, str, boost::is_any_of(")"));
+    for(auto const& val : splited_str) {
+        if (val.length() > 0) {
+            std::cout << val << std::endl;
+        }
+    }
+}
+
+/*
+std::map<char, std::shared_ptr<Node>>::iterator it;
+        std::shared_ptr<Node> cp;
+        for(auto i = 0; i<size; i++){
+            char ind = word[i];
+            if(i==0){
+                it = this->root.find(ind);
+                if(it == this->root.end()){
+                    this->root[ind] = std::make_shared<Node>(0);
+                    cp = this->root[ind];
+                }
+                else
+                    cp = this->root[ind];
+            }
+            else if(i==size-1){
+                it = cp->children.find(ind);
+                if(it == cp->children.end()){
+                    cp->children[ind] = std::make_shared<Node>(freq);
+                    cp = cp->children[ind];
+                }
+                else{
+                    cp = cp->children[ind];
+                    cp->setFreq(freq);
+                }
+            }
+            else{
+                it = cp->children.find(ind);
+                if(it == cp->children.end()){
+                    cp->children[ind] = std::make_shared<Node>(0);
+                    cp = cp->children[ind];
+                }
+                else
+                    cp = cp->children[ind];
+            }         
+        }
+        cpt++;
+ */
+
+int main(int argc, char* argv[]){
+    if (argc < 2) {
+        return -1;
+    }
+    
     Ptrie p;
 
-    p.build("../words.txt");
-    //p.print_ptrie();
+    p.build(argv[1]);
+    p.print_ptrie();
+    auto tmp = p.serialize();
+    
+    Ptrie p2;
+
+    p2.deSerialize(tmp);
+
+
 
     return 0;
 }

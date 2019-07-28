@@ -9,6 +9,7 @@
 #include <iostream>
 #include <fstream>
 #include <map>
+#include <boost/algorithm/string.hpp> 
 
 
 class Node {
@@ -33,6 +34,8 @@ class Ptrie {
         void build(std::string path);
         void print_rec(std::string word, std::shared_ptr<Node> node);
         void print_ptrie();
+        std::string serialize();
+        void deSerialize(std::string str);
     private:
         std::map<char,std::shared_ptr<Node>> root;
 };
