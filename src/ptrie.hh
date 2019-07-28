@@ -13,7 +13,7 @@
 
 class Node {
     public:
-        std::map<char,std::unique_ptr<Node>> children;
+        std::map<char,std::shared_ptr<Node>> children;
         Node(int freq);
         ~Node();
         void setFreq(int freq);
@@ -33,7 +33,7 @@ class Ptrie {
         void build(std::string path);
         void print_ptrie();
     private:
-        std::map<char,std::unique_ptr<Node>> root;
+        std::map<char,std::shared_ptr<Node>> root;
 };
 
 #endif

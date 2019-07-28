@@ -71,44 +71,38 @@ void Ptrie::build(std::string path){
         std::string word = split[0];
         int size = word.size();
         int freq = itoa(split[1]);
-        std::map<char, std::unique_ptr<Node>>::iterator it;
-        std::unique_ptr<Node> cp;
+        std::map<char, std::shared_ptr<Node>>::iterator it;
+        std::shared_ptr<Node> cp;
         for(auto i = 0; i<size; i++){
             char ind = word[i];
             if(i==0){
                 it = this->root.find(ind);
                 if(it == this->root.end()){
-                    //Node* n = new Node(0);
-                    //std::unique_ptr<Node> tmp(n);
-                    this->root[ind] = std::make_unique<Node>(0);
-                    cp = std::make_unique<Node>(this->root[ind]->getFreq());
+                    this->root[ind] = std::make_shared<Node>(0);
+                    cp = this->root[ind];
                 }
                 else
-                    cp = std::make_unique<Node>(this->root[ind]->getFreq());
+                    cp = this->root[ind];
             }
             else if(i==size-1){
                 it = cp->children.find(ind);
                 if(it == cp->children.end()){
-                    //Node* n = new Node(freq);
-                    //std::unique_ptr<Node> tmp(n);
-                    cp->children[ind] = std::make_unique<Node>(freq);
-                    cp = std::make_unique<Node>(cp->children[ind]->getFreq());
+                    cp->children[ind] = std::make_shared<Node>(freq);
+                    cp = cp->children[ind];
                 }
                 else{
-                    cp = std::make_unique<Node>(cp->children[ind]->getFreq());
+                    cp = cp->children[ind];
                     cp->setFreq(freq);
                 }
             }
             else{
                 it = cp->children.find(ind);
                 if(it == cp->children.end()){
-                    //Node* n = new Node(0);
-                    //std::unique_ptr<Node> tmp(n);
-                    cp->children[ind] = std::make_unique<Node>(0);
-                    cp = std::make_unique<Node>(cp->children[ind]->getFreq());
+                    cp->children[ind] = std::make_shared<Node>(0);
+                    cp = cp->children[ind];
                 }
                 else
-                    cp = std::make_unique<Node>(cp->children[ind]->getFreq());
+                    cp = cp->children[ind];
             }         
         }
     }
@@ -118,7 +112,7 @@ void Ptrie::build(std::string path){
 void Ptrie::print_ptrie(){
     for(auto const& [key, val] : this->root){
         std::cout << key;
-        auto n = std::make_unique<Node>(val->getFreq());
+        auto n = val;
         for(auto const& [key2, val2] : n->children){
             std::cout << key2 << std::endl;
         }
@@ -129,7 +123,7 @@ int main(){
     Ptrie p;
 
     p.build((std::string)"test.txt");
-    p.print_ptrie();
+    //p.print_ptrie();
 
     return 0;
 }
