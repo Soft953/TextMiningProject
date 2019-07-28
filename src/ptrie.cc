@@ -15,11 +15,24 @@ int Node::getFreq(){
     return this->frequency;
 }
 
+void Node::setIndex(std::pair<int, int> ind){
+    this->index = ind;
+    this->asindex = true;
+}
+
+std::pair<int, int> Node::getIndex(){
+    return this->index;
+}
+
 Ptrie::Ptrie(){
     //this->root = std::map<std::string, std::unique_ptr<Node>> {};
 }
 
 Ptrie::~Ptrie(){}
+
+void Ptrie::addLetter(char letter){
+    this->letter_list.push_back(letter);
+}
 
 std::vector<std::string> splitline(std::string line){
     int size = line.size();
@@ -111,6 +124,39 @@ void Ptrie::build(std::string path){
     std::cout << cpt << " words learned." << std::endl;
     inFile.close();
 }
+
+void Ptrie::made_rec(std::shared_ptr<Node> node){
+    if(node->children.size() == 1){
+        int ind = this->letter_list.size();
+        if(!node->asindex){
+            std::pair<int, int> tmp(ind, 1);
+            node->setIndex(tmp);
+            this->addLetter(node->children.begin()->first);
+            auto acc = node->children.begin()->second;
+            node->children = acc->children;
+        }
+        else{
+            std::pair tmp = node->getIndex();
+            tmp.second += 1;
+            node->setIndex(tmp);
+            this->addLetter(node->children.begin()->first);
+            auto acc = node->children.begin()->second;
+            node->children = acc->children;
+        }
+        made_rec(node);
+    }
+    else{
+        for(auto [key, val] : node->children)
+            made_rec(val);
+    }
+}
+
+void Ptrie::made_patricia(){
+    for(auto [key, val] : this->root){
+        made_rec(val);
+    }
+}
+
 void Ptrie::print_rec(std::string word, std::shared_ptr<Node> node){
     for(auto const& [key, val] : node->children){
         std::string cpy = word;
@@ -134,7 +180,6 @@ void Ptrie::print_ptrie(){
 }
 
 void serializeRec(std::string& res, const std::shared_ptr<Node>& node) {
-    //std::string res = std::string("");
     for(auto const& [key, val] : node->children) {
         res += key;
         if(val->getFreq() > 0)
@@ -170,44 +215,6 @@ void Ptrie::deSerialize(std::string str) {
     }
 }
 
-/*
-std::map<char, std::shared_ptr<Node>>::iterator it;
-        std::shared_ptr<Node> cp;
-        for(auto i = 0; i<size; i++){
-            char ind = word[i];
-            if(i==0){
-                it = this->root.find(ind);
-                if(it == this->root.end()){
-                    this->root[ind] = std::make_shared<Node>(0);
-                    cp = this->root[ind];
-                }
-                else
-                    cp = this->root[ind];
-            }
-            else if(i==size-1){
-                it = cp->children.find(ind);
-                if(it == cp->children.end()){
-                    cp->children[ind] = std::make_shared<Node>(freq);
-                    cp = cp->children[ind];
-                }
-                else{
-                    cp = cp->children[ind];
-                    cp->setFreq(freq);
-                }
-            }
-            else{
-                it = cp->children.find(ind);
-                if(it == cp->children.end()){
-                    cp->children[ind] = std::make_shared<Node>(0);
-                    cp = cp->children[ind];
-                }
-                else
-                    cp = cp->children[ind];
-            }         
-        }
-        cpt++;
- */
-
 int main(int argc, char* argv[]){
     if (argc < 2) {
         return -1;
@@ -216,14 +223,14 @@ int main(int argc, char* argv[]){
     Ptrie p;
 
     p.build(argv[1]);
+    p.made_patricia();
     p.print_ptrie();
-    auto tmp = p.serialize();
+    //auto tmp = p.serialize();
     
-    Ptrie p2;
+    //Ptrie p2;
 
-    p2.deSerialize(tmp);
+    //p2.deSerialize(tmp);
 
-
-
+    //p.print_ptrie();
     return 0;
 }
