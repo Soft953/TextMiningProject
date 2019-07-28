@@ -15,11 +15,24 @@ int Node::getFreq(){
     return this->frequency;
 }
 
+void Node::setIndex(std::pair<int, int> ind){
+    this->index = ind;
+    this->asindex = true;
+}
+
+std::pair<int, int> Node::getIndex(){
+    return this->index;
+}
+
 Ptrie::Ptrie(){
     //this->root = std::map<std::string, std::unique_ptr<Node>> {};
 }
 
 Ptrie::~Ptrie(){}
+
+void Ptrie::addLetter(char letter){
+    this->letter_list.push_back(letter);
+}
 
 std::vector<std::string> splitline(std::string line){
     int size = line.size();
@@ -111,6 +124,39 @@ void Ptrie::build(std::string path){
     std::cout << cpt << " words learned." << std::endl;
     inFile.close();
 }
+
+void Ptrie::made_rec(std::shared_ptr<Node> node){
+    if(node->children.size() == 1){
+        int ind = this->letter_list.size();
+        if(!node->asindex){
+            std::pair<int, int> tmp(ind, 1);
+            node->setIndex(tmp);
+            this->addLetter(node->children.begin()->first);
+            auto acc = node->children.begin()->second;
+            node->children = acc->children;
+        }
+        else{
+            std::pair tmp = node->getIndex();
+            tmp.second += 1;
+            node->setIndex(tmp);
+            this->addLetter(node->children.begin()->first);
+            auto acc = node->children.begin()->second;
+            node->children = acc->children;
+        }
+        made_rec(node);
+    }
+    else{
+        for(auto [key, val] : node->children)
+            made_rec(val);
+    }
+}
+
+void Ptrie::made_patricia(){
+    for(auto [key, val] : this->root){
+        made_rec(val);
+    }
+}
+
 void Ptrie::print_rec(std::string word, std::shared_ptr<Node> node){
     for(auto const& [key, val] : node->children){
         std::string cpy = word;
@@ -138,6 +184,7 @@ int main(){
 
     p.build("../words.txt");
     //p.print_ptrie();
+    p.made_patricia();
 
     return 0;
 }
