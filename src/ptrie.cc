@@ -122,7 +122,7 @@ void Ptrie::print_ptrie(){
 int main(){
     Ptrie p;
 
-    p.build((std::string)"test.txt");
+    p.build("../words.txt");
     //p.print_ptrie();
 
     return 0;
