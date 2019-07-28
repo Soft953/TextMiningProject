@@ -1,7 +1,7 @@
 #include "ptrie.hh"
 
 Node::Node(int freq){
-    //this->children = std::map<char, std::unique_ptr<Node>> {};
+    //this->children = std::map<std::string, std::unique_ptr<Node>> {};
     this->frequency = freq;
 }
 
@@ -16,16 +16,16 @@ int Node::getFreq(){
 }
 
 Ptrie::Ptrie(){
-    //this->root = std::map<char, std::unique_ptr<Node>> {};
+    //this->root = std::map<std::string, std::unique_ptr<Node>> {};
 }
 
 Ptrie::~Ptrie(){}
 
-std::vector<char*> splitline(char* line){
-    int size = strlen(line);
-    std::vector<char*> res;
-    char* tmp;
-    char* tmp2;
+std::vector<std::string> splitline(std::string line){
+    int size = line.size();
+    std::vector<std::string> res;
+    std::string tmp;
+    std::string tmp2;
     bool acc = false;
     for(auto i=0; i<size; i++){
         if( (line[i] == ' ' && acc == false) || (line[i] == '\t' && acc == false) ) {
@@ -46,8 +46,8 @@ std::vector<char*> splitline(char* line){
     return res;
 }
 
-int itoa(char* str){
-    int size = strlen(str);
+int itoa(std::string str){
+    int size = str.size();
     int res=0;
     for(auto i = 0; i<size; i++){
         res*=10;
@@ -57,7 +57,7 @@ int itoa(char* str){
     return res;
 }
 
-void Ptrie::build(char* path){
+void Ptrie::build(std::string path){
 
     std::ifstream inFile;
     inFile.open(path);
@@ -65,11 +65,11 @@ void Ptrie::build(char* path){
         std::cerr << "Unable to open file" << std::endl;
         exit(1);
     }
-    char line[128];
-    while(inFile.getline(line, sizeof(line))){
-        std::vector<char*> split = splitline(line);
-        char* word = split[0];
-        int size = strlen(word);
+    std::string line;
+    while(std::getline(inFile, line)){
+        std::vector<std::string> split = splitline(line);
+        std::string word = split[0];
+        int size = word.size();
         int freq = itoa(split[1]);
         std::map<char, std::unique_ptr<Node>>::iterator it;
         std::unique_ptr<Node> cp;
@@ -115,9 +115,21 @@ void Ptrie::build(char* path){
     inFile.close();
 }
 
+void Ptrie::print_ptrie(){
+    for(auto const& [key, val] : this->root){
+        std::cout << key;
+        auto n = std::make_unique<Node>(val->getFreq());
+        for(auto const& [key2, val2] : n->children){
+            std::cout << key2 << std::endl;
+        }
+    }
+}
+
 int main(){
     Ptrie p;
 
-    p.build((char*)"test.txt");
+    p.build((std::string)"test.txt");
+    p.print_ptrie();
+
     return 0;
 }

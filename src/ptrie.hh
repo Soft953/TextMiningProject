@@ -23,14 +23,15 @@ class Node {
         int frequency;
 };
 
-std::vector<char*> splitline(char* line);
-int itoa(char* str);
+std::vector<std::string> splitline(std::string line);
+int itoa(std::string str);
 
 class Ptrie {
     public:
         Ptrie();
         ~Ptrie();
-        void build(char* path);
+        void build(std::string path);
+        void print_ptrie();
     private:
         std::map<char,std::unique_ptr<Node>> root;
 };
