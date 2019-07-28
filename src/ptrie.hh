@@ -31,6 +31,7 @@ class Ptrie {
         Ptrie();
         ~Ptrie();
         void build(std::string path);
+        void print_rec(std::string word, std::shared_ptr<Node> node);
         void print_ptrie();
     private:
         std::map<char,std::shared_ptr<Node>> root;

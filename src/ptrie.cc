@@ -66,6 +66,7 @@ void Ptrie::build(std::string path){
         exit(1);
     }
     std::string line;
+    int cpt=0;
     while(std::getline(inFile, line)){
         std::vector<std::string> split = splitline(line);
         std::string word = split[0];
@@ -105,17 +106,30 @@ void Ptrie::build(std::string path){
                     cp = cp->children[ind];
             }         
         }
+        cpt++;
     }
+    std::cout << cpt << " words learned." << std::endl;
     inFile.close();
+}
+void Ptrie::print_rec(std::string word, std::shared_ptr<Node> node){
+    for(auto const& [key, val] : node->children){
+        std::string cpy = word;
+        cpy += key;
+        if(val->getFreq() > 0)
+            std::cout << cpy << std::endl;
+        if(val->children.size() >= 1)
+            print_rec(cpy, val); 
+    }
 }
 
 void Ptrie::print_ptrie(){
     for(auto const& [key, val] : this->root){
-        std::cout << key;
-        auto n = val;
-        for(auto const& [key2, val2] : n->children){
-            std::cout << key2 << std::endl;
-        }
+        std::string word = "";
+        word += key;
+        if(val->getFreq() > 0)
+            std::cout << word << std::endl;
+        if(val->children.size() >= 1)
+            print_rec(word, val);
     }
 }
 
