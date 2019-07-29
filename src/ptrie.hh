@@ -9,6 +9,7 @@
 #include <iostream>
 #include <fstream>
 #include <map>
+#include <stack> 
 #include <boost/algorithm/string.hpp> 
 
 
@@ -42,7 +43,7 @@ class Ptrie {
         void print_rec(std::string word, std::shared_ptr<Node> node);
         void print_ptrie();
         std::string serialize();
-        void deSerialize(std::string str);
+        void deSerialize(const std::string& str);
     private:
         std::map<char,std::shared_ptr<Node>> root;
         std::vector<char> letter_list;

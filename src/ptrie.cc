@@ -1,4 +1,6 @@
 #include "ptrie.hh"
+#define UNUSED(expr) do { (void)(expr); } while (0)
+
 
 Node::Node(int freq){
     //this->children = std::map<std::string, std::unique_ptr<Node>> {};
@@ -144,15 +146,17 @@ void Ptrie::made_rec(std::shared_ptr<Node> node){
             node->children = acc->children;
         }
         made_rec(node);
-    }
-    else{
-        for(auto [key, val] : node->children)
+    } else {
+        for(auto [key, val] : node->children) {
+            UNUSED(key);
             made_rec(val);
+        }
     }
 }
 
 void Ptrie::made_patricia(){
     for(auto [key, val] : this->root){
+        UNUSED(key);
         made_rec(val);
     }
 }
@@ -180,39 +184,152 @@ void Ptrie::print_ptrie(){
 }
 
 void serializeRec(std::string& res, const std::shared_ptr<Node>& node) {
+    auto const& size = node->children.size();
+    std::size_t i = 0;
+    res += " ";
     for(auto const& [key, val] : node->children) {
         res += key;
         if(val->getFreq() > 0)
             res += "-" + std::to_string(val->getFreq());
-        res += ";";
         if(val->children.size() >= 1)
             serializeRec(res, val);
-        res += ")";
+        if (i + 1 < size)
+            res += " ";
+        i++;
     }
+    res += " )";
 }
+
+// 1 2 5 ) 6 ) ) 3 ) 4 7 ) 8 9 ) ) ) )
 
 std::string Ptrie::serialize() {
     std::string res = std::string("");
+    auto const& size = this->root.size();
+    std::size_t i = 0;
     for(auto const& [key, val] : this->root) {
         res += key;
         if(val->getFreq() > 0)
             res += "-" + std::to_string(val->getFreq());
-        res += ";";
         if(val->children.size() >= 1)
             serializeRec(res, val);
-        res += ")";
+        if (i + 1 < size)
+            res += " ";
+        i++;
     }
     return res;
 }
 
-void Ptrie::deSerialize(std::string str) {
-    std::vector<std::string> splited_str; 
-    boost::split(splited_str, str, boost::is_any_of(")"));
-    for(auto const& val : splited_str) {
-        if (val.length() > 0) {
-            std::cout << val << std::endl;
+/*
+void deSerializeStack(const std::vector<std::string>& splitted_string, std::shared_ptr<std::map<char,std::shared_ptr<Node>>> root) {
+    std::stack<std::shared_ptr<std::map<char,std::shared_ptr<Node>>>> stack;
+    stack.push(root);
+    //int back_to_root = 0;
+    //root['z'] = std::make_shared<Node>(0);
+    for (auto const& str : splitted_string) {
+        if (str.size() == 1) {
+            if (!str.compare(")")) {
+                //if (stack.size() == 1)
+                //    root = stack.top();
+                stack.pop();
+            }
+            else {
+                /* if (back_to_root) {
+                    node->children[str[0]] = std::make_shared<Node>(0);
+                    stack.push(node->children[str[0]]);
+                    back_to_root = 0;
+                } else {
+                //stack.top()->children[str[0]] = std::make_shared<Node>(0);
+                //stack.push(stack.top()->children[str[0]]);
+                //}
+                std::map<char,std::shared_ptr<Node>> m = *stack.top();
+                m[str[0]] = std::make_shared<Node>(0);
+                stack.push(std::make_shared<std::map<char,std::shared_ptr<Node>>>(m[str[0]]->children));
+            }
+        }
+        else {
+            std::vector<std::string> tmp;
+            boost::split(tmp, str, boost::is_any_of("-"));
+            const char c = tmp[0][0];
+            const int freq = std::stoi(tmp[1]);
+            /*if (back_to_root) {
+                stack.top()->children[c] = std::make_shared<Node>(freq);
+                stack.push(stack.top()->children[c]);
+                back_to_root = 0;               
+            }
+            stack.top()->children[c] = std::make_shared<Node>(freq);
+            stack.push(stack.top()->children[c]);
+            
+            std::map<char,std::shared_ptr<Node>> m = *stack.top();
+            m[c] = std::make_shared<Node>(freq);
+            stack.push(std::make_shared<std::map<char,std::shared_ptr<Node>>>(m[c]->children));
+        }
+    } 
+}
+//cp->children[ind] = std::make_shared<Node>(freq);
+*/
+
+
+void Ptrie::deSerialize(const std::string& str) {
+    std::vector<std::string> tmp; 
+    boost::split(tmp, str, boost::is_any_of(" "));
+    //deSerializeStack(tmp, std::make_shared<std::map<char,std::shared_ptr<Node>>>(this->root));
+    //std::size_t i = 0;
+    std::stack<std::shared_ptr<std::map<char,std::shared_ptr<Node>>>> stack;
+    //auto save = std::make_shared<std::map<char,std::shared_ptr<Node>>>(this->root);
+    stack.push(std::make_shared<std::map<char,std::shared_ptr<Node>>>(this->root));
+    auto save = stack.top();
+    //(*stack.top())['z'] = std::make_shared<Node>(0);
+    for (auto const& str : tmp) {
+        if (str.size() == 1) {
+            if (!str.compare(")")) {
+                stack.pop();
+            }
+            else {
+                (*stack.top())[str[0]] = std::make_shared<Node>(0);
+                //auto sharedptr_children = std::make_shared<std::map<char,std::shared_ptr<Node>>>((*stack.top())[str[0]]->children);
+                stack.push(std::make_shared<std::map<char,std::shared_ptr<Node>>>((*stack.top())[str[0]]->children));
+            }
+        }
+        else {
+            std::vector<std::string> tmp;
+            boost::split(tmp, str, boost::is_any_of("-"));
+            const char c = tmp[0][0];
+            const int freq = std::stoi(tmp[1]);
+            (*stack.top())[c] = std::make_shared<Node>(freq);
+            //auto sharedptr_children = std::make_shared<std::map<char,std::shared_ptr<Node>>>((*stack.top())[c]->children);
+            stack.push(std::make_shared<std::map<char,std::shared_ptr<Node>>>((*stack.top())[c]->children));
         }
     }
+    //this->root = *save;
+    /*
+    std::stack<std::map<char,std::shared_ptr<Node>>> stack;
+    stack.push(this->root);
+    //auto saveref = &stack.top();
+    for (auto const& str : tmp) {
+        if (str.size() == 1) {
+            if (!str.compare(")")) {
+                stack.pop();
+            }
+            else {
+                stack.top()[str[0]]= std::make_shared<Node>(0);
+                stack.push(stack.top()[str[0]]->children);
+            }
+        }
+        else {
+            std::vector<std::string> tmp;
+            boost::split(tmp, str, boost::is_any_of("-"));
+            const char c = tmp[0][0];
+            const int freq = std::stoi(tmp[1]);
+            stack.top()[c] = std::make_shared<Node>(freq);
+            stack.push(stack.top()[c]->children);
+        }
+    }
+    while (stack.size() != 2) {
+        stack.pop();
+    }
+    this->root = stack.top();
+    auto test = this->root['a'];
+    */
 }
 
 int main(int argc, char* argv[]){
@@ -223,13 +340,20 @@ int main(int argc, char* argv[]){
     Ptrie p;
 
     p.build(argv[1]);
+    auto serialize_str = p.serialize();
+    std::cout << serialize_str << std::endl;
     p.made_patricia();
-    p.print_ptrie();
+    std::cout << serialize_str << std::endl;
+    //p.print_ptrie();
     //auto tmp = p.serialize();
     
-    //Ptrie p2;
+    Ptrie p2;
 
-    //p2.deSerialize(tmp);
+    p2.deSerialize(serialize_str);
+    auto serialize_str2 = p2.serialize();
+    std::cout << serialize_str2 << std::endl;
+
+    p2.print_ptrie();
 
     //p.print_ptrie();
     return 0;
