@@ -24,11 +24,20 @@ set(AppSRC
     src/ptrie.cc
 )
 
+set(testSRC
+    test/test.cc
+)
+
 link_directories(${CMAKE_SOURCE_DIR}/src)
 
 add_executable (TextMiningCompiler ${CompilerSRC})
 
 add_executable (TextMiningApp ${CompilerSRC})
+
+add_executable (UnitTest ${testSRC})
+
+target_link_libraries(UnitTest dl)
+TARGET_LINK_LIBRARIES( UnitTest LINK_PUBLIC ${Boost_LIBRARIES} )
 
 target_link_libraries(TextMiningApp dl)
 TARGET_LINK_LIBRARIES( TextMiningApp LINK_PUBLIC ${Boost_LIBRARIES} )
