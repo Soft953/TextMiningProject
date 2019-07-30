@@ -6,7 +6,7 @@ size_t Reader::getFilesize(const char* filename) {
     return st.st_size;
 }
 
-void Reader::readFile(const char *filename)
+std::tuple<void*, int> Reader::readFile(const char* filename)
 {
     size_t filesize = getFilesize(filename);
 
@@ -19,20 +19,20 @@ void Reader::readFile(const char *filename)
     assert(mmappedData != MAP_FAILED);
 
 
-    auto data = static_cast<char*>(mmappedData);
-
-    std::string data_str = std::string(data);
+    //auto data = static_cast<char*>(mmappedData);
+    //std::string data_str = std::string(data);
 
     //std::cout << data_str << std::endl;
 
     //std::cout << data << std::endl;
-    
-    //Write the mmapped data to stdout (= FD #1)
-    //if ( write(1, mmappedData, filesize) < 0) {
-    //    return;
-    //}
 
-    //Cleanup
+    return {mmappedData, fd};
+}
+
+void Reader::clearMmappedData(const char* filename, void* mmappedData, int fd) {
+    
+    size_t filesize = getFilesize(filename);
+    
     int rc = munmap(mmappedData, filesize);
     assert(rc == 0);
     close(fd);

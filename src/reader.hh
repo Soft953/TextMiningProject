@@ -9,11 +9,13 @@
 #include <iostream>
 #include <string>
 #include <boost/algorithm/string.hpp> 
+#include <tuple>
 
 class Reader{
     private:
         static size_t getFilesize(const char* filename);
 
     public:
-        static void readFile(const char *filename);
+        static std::tuple<void*, int> readFile(const char *filename);
+        static void clearMmappedData(const char* filename, void* mmappedData, int fd);
 };

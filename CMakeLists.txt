@@ -12,14 +12,26 @@ INCLUDE_DIRECTORIES( ${Boost_INCLUDE_DIR} )
 
 set(CMAKE_CXX_FLAGS_DEBUG "-g")
 
-set(SRC
-    src/main.cc
+set(CompilerSRC
+    src/TextMiningCompiler/main.cc
     src/reader.cc
-    src/parser.cc
+    src/ptrie.cc
+)
+
+set(AppSRC
+    src/TextMiningApp/main.cc
+    src/reader.cc
+    src/ptrie.cc
 )
 
 link_directories(${CMAKE_SOURCE_DIR}/src)
 
-add_executable (textmining ${SRC})
-target_link_libraries(textmining dl)
-TARGET_LINK_LIBRARIES( textmining LINK_PUBLIC ${Boost_LIBRARIES} )
+add_executable (TextMiningCompiler ${CompilerSRC})
+
+add_executable (TextMiningApp ${CompilerSRC})
+
+target_link_libraries(TextMiningApp dl)
+TARGET_LINK_LIBRARIES( TextMiningApp LINK_PUBLIC ${Boost_LIBRARIES} )
+
+target_link_libraries(TextMiningCompiler dl)
+TARGET_LINK_LIBRARIES( TextMiningCompiler LINK_PUBLIC ${Boost_LIBRARIES} )

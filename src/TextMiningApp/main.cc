@@ -1,7 +1,7 @@
 #include <iostream> 
 #include <string>
 
-#include "reader.hh"
+#include "../reader.hh"
 
 namespace 
 { 
@@ -13,9 +13,10 @@ namespace
 
 int main(int argc, char* argv[])
 {
-    if (argc < 2) {
+    if (argc < 3) {
+        std::cout << "Usage: ./TextMiningApp /path/to/compiled/dict.bin" << std::endl;
         return ERROR_IN_COMMAND_LINE;
     }
-    Reader().readFile(argv[1]);
+    //std::string Reader().readFile(argv[1]);
     return SUCCESS;
 }

@@ -73,7 +73,7 @@ int itoa(std::string str){
     return res;
 }
 
-void Ptrie::build(std::string path){
+void Ptrie::build(std::string path) {
 
     std::ifstream inFile;
     inFile.open(path);
@@ -82,6 +82,7 @@ void Ptrie::build(std::string path){
         exit(1);
     }
     std::string line;
+
     int cpt=0;
     while(std::getline(inFile, line)){
         std::vector<std::string> split = splitline(line);
@@ -125,7 +126,7 @@ void Ptrie::build(std::string path){
         cpt++;
     }
     std::cout << cpt << " words learned." << std::endl;
-    inFile.close();
+    //inFile.close();
 }
 
 void Ptrie::made_rec(std::shared_ptr<Node> node){
@@ -344,7 +345,7 @@ void Ptrie::deSerialize(const std::string& str) {
     auto test = this->root['a'];
     */
 }
-
+/*
 int main(int argc, char* argv[]){
     if (argc < 2) {
         return -1;
@@ -371,3 +372,4 @@ int main(int argc, char* argv[]){
     //p.print_ptrie();
     return 0;
 }
+*/
