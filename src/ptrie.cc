@@ -138,6 +138,8 @@ void Ptrie::made_rec(std::shared_ptr<Node> node){
             this->addLetter(node->children.begin()->first);
             auto acc = node->children.begin()->second;
             node->children = acc->children;
+            //if (acc->getFreq() > 0)
+            //    node->setFreq(acc->getFreq());
         }
         else{
             std::pair tmp = node->getIndex();
@@ -146,6 +148,8 @@ void Ptrie::made_rec(std::shared_ptr<Node> node){
             this->addLetter(node->children.begin()->first);
             auto acc = node->children.begin()->second;
             node->children = acc->children;
+            //if (acc->getFreq() > 0)
+            //    node->setFreq(acc->getFreq());
         }
         made_rec(node);
     } else {
@@ -183,6 +187,38 @@ void Ptrie::print_ptrie(){
         if(val->children.size() >= 1)
             print_rec(word, val);
     }
+}
+
+void Ptrie::getWordsRec(std::string word, std::shared_ptr<Node> node){
+    for(auto const& [key, val] : node->children){
+        std::string cpy = word;
+        cpy += key;
+        if (val->asindex) {
+            for (int i = val->getIndex().first; i < val->getIndex().second; i++)
+                cpy += this->letter_list[i];
+        }
+        if(val->getFreq() > 0)
+            std::cout << cpy << " " << val->getFreq() << std::endl;
+        if(val->children.size() >= 1)
+            getWordsRec(cpy, val); 
+    }
+}
+
+void Ptrie::getWords() {
+    for(auto const& [key, val] : this->root){
+        std::string word = "";
+        word += key;
+        if (val->asindex) {
+            for (int i = val->getIndex().first; i < val->getIndex().second; i++) {
+                //std::cout << this->letter_list[i] << std::endl;
+                word += this->letter_list[i];
+            }
+        }
+        if(val->getFreq() > 0)
+            std::cout << word << " " << val->getFreq() << std::endl;
+        if(val->children.size() >= 1)
+            getWordsRec(word, val);
+    }    
 }
 
 void serializeRec(std::string& res, const std::shared_ptr<Node>& node) {

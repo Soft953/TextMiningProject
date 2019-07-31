@@ -30,6 +30,7 @@ int main(int argc, char* argv[])
 
     p.build(argv[1]);
     p.made_patricia();
+    p.getWords();
     
     /*std::ofstream outputFile (argv[2]);
     if (outputFile.is_open())
