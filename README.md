@@ -39,3 +39,5 @@
 
 
 7.	Que manque-t-il à votre correcteur orthographique pour qu’il soit à l’état de l’art ?
+
+    Il manque la prise en compte de la phonétique des mots et la prise en compte du contexte pour qu'il soit à l'état de l'art.
