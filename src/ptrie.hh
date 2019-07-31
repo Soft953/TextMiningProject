@@ -12,16 +12,47 @@
 #include <stack> 
 #include <boost/algorithm/string.hpp> 
 
-
+/**
+  *
+  * Node class:
+  *
+  * Represent a node of Patricia trie, composed of:
+  * a map of children, a boolean to represent if the node have an index in the 
+  * letter list, a frequency = 0 if it is not a word and a pair of index is asindex = true. 
+  */
 class Node {
     public:
         std::map<char,std::shared_ptr<Node>> children;
         bool asindex = false;
         Node(int freq);
         ~Node();
+
+        /**
+          * setFreq
+          *
+          * Set the frequency of a node
+          */
         void setFreq(int freq);
+
+        /** 
+          * getFreq
+          *
+          * Return the frequency of the node
+          */
         int getFreq();
+
+        /**
+          *setIndex
+          *
+          * Set the index of a node
+          */
         void setIndex(std::pair<int, int> ind);
+ 
+        /** 
+          * getIndex
+          *
+          * Return the index of the node
+          */
         std::pair<int, int> getIndex();
     
     private:
@@ -29,7 +60,18 @@ class Node {
         std::pair<int, int> index;
 };
 
+/**
+  *splitline
+  *
+  * Split a line depending of a space or a tabulation
+  */
 std::vector<std::string> splitline(std::string line);
+
+/**
+  * itoa
+  *
+  * convert a string to an int
+  */
 int itoa(std::string str);
 
 class Ptrie {

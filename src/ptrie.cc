@@ -132,12 +132,15 @@ void Ptrie::build(std::string path) {
 void Ptrie::made_rec(std::shared_ptr<Node> node){
     if(node->children.size() == 1){
         int ind = this->letter_list.size();
-        if(!node->asindex){
+        if(node->getFreq() > 0)
+            made_rec(node->children.begin()->second);
+        else if(!node->asindex){
             std::pair<int, int> tmp(ind, 1);
             node->setIndex(tmp);
             this->addLetter(node->children.begin()->first);
             auto acc = node->children.begin()->second;
             node->children = acc->children;
+            made_rec(node);
         }
         else{
             std::pair tmp = node->getIndex();
@@ -146,9 +149,10 @@ void Ptrie::made_rec(std::shared_ptr<Node> node){
             this->addLetter(node->children.begin()->first);
             auto acc = node->children.begin()->second;
             node->children = acc->children;
+            made_rec(node);
         }
-        made_rec(node);
-    } else {
+    }
+    else {
         for(auto [key, val] : node->children) {
             UNUSED(key);
             made_rec(val);
@@ -345,7 +349,7 @@ void Ptrie::deSerialize(const std::string& str) {
     auto test = this->root['a'];
     */
 }
-/*
+
 int main(int argc, char* argv[]){
     if (argc < 2) {
         return -1;
@@ -354,22 +358,22 @@ int main(int argc, char* argv[]){
     Ptrie p;
 
     p.build(argv[1]);
-    auto serialize_str = p.serialize();
-    std::cout << serialize_str << std::endl;
+    //auto serialize_str = p.serialize();
+    //std::cout << serialize_str << std::endl;
     p.made_patricia();
-    std::cout << serialize_str << std::endl;
+    //std::cout << serialize_str << std::endl;
     //p.print_ptrie();
     //auto tmp = p.serialize();
     
-    Ptrie p2;
+    //Ptrie p2;
 
-    p2.deSerialize(serialize_str);
-    auto serialize_str2 = p2.serialize();
-    std::cout << serialize_str2 << std::endl;
+    //p2.deSerialize(serialize_str);
+    //auto serialize_str2 = p2.serialize();
+    //std::cout << serialize_str2 << std::endl;
 
-    p2.print_ptrie();
+    //p2.print_ptrie();
 
     //p.print_ptrie();
     return 0;
 }
-*/
+
