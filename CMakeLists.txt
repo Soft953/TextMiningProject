@@ -27,6 +27,7 @@ set(AppSRC
 set(testSRC
     test/test.cc
     src/damerauLevenshtein.cc
+    src/ptrie.cc
 )
 
 link_directories(${CMAKE_SOURCE_DIR}/src)

@@ -1,6 +1,7 @@
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
 #include "../src/damerauLevenshtein.hh"
+#include "../src/ptrie.hh"
 
 /*
 
@@ -28,4 +29,41 @@ TEST_CASE( "Damereau Levenshtein test", "[Distance]" ) {
     REQUIRE( DamereauLevenshtein().distance("test", "lestu") == 2 );
     REQUIRE( DamereauLevenshtein().distance("test", "bpst") == 2 );
     REQUIRE( DamereauLevenshtein().distance("test", "tstb") == 2 );
+}
+
+
+int serialiseTest(std::string ref) {
+    
+    Ptrie p;
+
+    auto a = std::make_shared<Node>(0);
+    auto b = std::make_shared<Node>(0);
+    auto c = std::make_shared<Node>(0);
+    auto d = std::make_shared<Node>(0);
+    auto e = std::make_shared<Node>(0);
+    auto f = std::make_shared<Node>(0);
+    auto g = std::make_shared<Node>(0);
+    auto h = std::make_shared<Node>(0);
+    auto i = std::make_shared<Node>(0);
+    auto j = std::make_shared<Node>(0);
+    auto k = std::make_shared<Node>(0);
+    
+    f->children['k'] = k;
+    b->children['e'] = e;
+    b->children['f'] = f;
+    a->children['b'] = b;
+    a->children['c'] = c;
+    d->children['g'] = g;
+    d->children['h'] = h;
+    d->children['i'] = i;
+    d->children['j'] = j;
+    a->children['d'] = d;
+
+    p.root  = a->children;
+
+    return p.serialize().compare(ref);
+}
+
+TEST_CASE( "Serialisation test", "[Serialisation]" ) {
+    REQUIRE( serialiseTest("b e ) f k ) ) ) c ) d g ) h ) i ) j ) ) )") == 0 );
 }

@@ -29,8 +29,16 @@ int main(int argc, char* argv[])
     Ptrie p;
 
     p.build(argv[1]);
-    p.made_patricia();
-    p.getWords();
+    auto save = p.serialize();
+
+    Ptrie p2;
+    p2.deSerialize(save);
+
+    std::cout << save << std::endl;
+    std::cout << p2.serialize() << std::endl;
+    
+    //p.made_patricia();
+    //p.getWords();
     
     /*std::ofstream outputFile (argv[2]);
     if (outputFile.is_open())

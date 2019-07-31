@@ -119,12 +119,14 @@ class Ptrie {
          * Build Patricia Trie from a serialized string
          */
         void deSerialize(const std::string& str);
-    private:
+
         /**
          * 
          * Store root node using map 'character' -> Node
          */
         std::map<char,std::shared_ptr<Node>> root;
+    private:
+
 
         /**
          * 
