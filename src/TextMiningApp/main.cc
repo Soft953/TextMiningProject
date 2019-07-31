@@ -88,21 +88,36 @@ int main(int argc, char* argv[])
     while(std::getline(inFile, line)){
         p.deSerialize(line);
     }
-    findWordWithDistance(p, "test", 1);
 
-    std::sort(result.begin(), result.end(), compareDistance);
-    std::sort(result.begin(), result.end(), compareFrequence);
-    std::sort(result.begin(), result.end(), compareLexi);
+    std::vector<std::string> wordsToFind;
+    std::vector<int> distanceToFind;
 
-    std::cout << "[";
-    size_t i = 0;
-    size_t size = result.size();
-    for (auto w : result) {
-        std::cout << "{\"word\":\"" << w.str << "\",\"freq\":" << w.freq << ",\"distance\":" << w.distance << "}";
-        if (i+1 < size)
-            std::cout << ",";
-        i++;
+
+    for (std::string line_in; std::getline(std::cin, line_in);) {
+        std::vector<std::string> tmp; 
+        boost::split(tmp, line_in, boost::is_any_of(" "));
+        wordsToFind.push_back(tmp[2]);
+        distanceToFind.push_back(std::stoi(tmp[1]));
     }
-    std::cout << "]" << std::endl;
+
+    for (size_t j = 0; j < wordsToFind.size(); j++)
+    {
+        findWordWithDistance(p, wordsToFind[j], distanceToFind[j]);
+        
+        std::sort(result.begin(), result.end(), compareDistance);
+        std::sort(result.begin(), result.end(), compareFrequence);
+        std::sort(result.begin(), result.end(), compareLexi);
+        
+        std::cout << "[";
+        size_t i = 0;
+        size_t size = result.size();
+        for (auto w : result) {
+            std::cout << "{\"word\":\"" << w.str << "\",\"freq\":" << w.freq << ",\"distance\":" << w.distance << "}";
+            if (i+1 < size)
+                std::cout << ",";
+            i++;
+        }
+        std::cout << "]" << std::endl;
+    }
     return SUCCESS;
 }
