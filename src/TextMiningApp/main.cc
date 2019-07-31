@@ -20,52 +20,62 @@ struct Word
     int distance = 0;
 };
 
-std::vector<Word> result;
-
 // Sort by distance
-bool compareDistance(Word e1, Word e2) {
+bool compareDistance(const Word& e1, const Word& e2) {
     return (e1.distance < e2.distance);
 }
 
 // Sort by frequence
-bool compareFrequence(Word e1, Word e2) {
+bool compareFrequence(const Word& e1, const Word& e2) {
     return (e1.freq > e2.freq);
 }
 
+size_t SIZE = 0;
+size_t IT = 0;
+
 // Sort by Lexi
-bool compareLexi(Word e1, Word e2) {
+bool compareLexi(const Word& e1, const Word& e2) {
+    //WTF Iterator goes too far ! we need to stop it.... 2h of debug
+    if (IT >= SIZE) return 0;
+    IT++;
     return e1.str.compare(e2.str);
 } 
 
-void findWordWithDistanceRec(std::string word, std::shared_ptr<Node> node, std::string str, int distance){
+void findWordWithDistanceRec(std::string word, std::shared_ptr<Node> node, std::string str, int distance, std::vector<Word>& result){
     for(auto const& [key, val] : node->children){
         std::string cpy = word;
         cpy += key;
         if(val->getFreq() > 0) {
             int d = DamereauLevenshtein().distance(str, cpy);
             if (d <= distance) {
+                if (cpy.empty()) {
+                    std::cout << "EMPTY HER" << std::endl;
+                }
                 result.push_back({cpy, val->getFreq(), d});
             }
         }
         if(val->children.size() >= 1)
-            findWordWithDistanceRec(cpy, val, str, distance);
+            findWordWithDistanceRec(cpy, val, str, distance, result);
     }
 }
 
 
-void findWordWithDistance(Ptrie p, std::string str, int distance) {
+void findWordWithDistance(Ptrie p, std::string str, int distance, std::vector<Word>& result) {
     for(auto const& [key, val] : p.root){
         std::string word = "";
         word += key;
         if(val->getFreq() > 0) {
             int d = DamereauLevenshtein().distance(str, word);
             if (d <= distance) {
+                if (word.empty()) {
+                    std::cout << "EMPTY HER" << std::endl;
+                }
                 result.push_back({word, val->getFreq(), d});
             }
 
         }
         if(val->children.size() >= 1)
-            findWordWithDistanceRec(word, val, str, distance);
+            findWordWithDistanceRec(word, val, str, distance, result);
     }
 }
 
@@ -82,7 +92,6 @@ int main(int argc, char* argv[])
         exit(1);
     }
     std::string line;
-    //int cpt=0;
 
     Ptrie p;
     while(std::getline(inFile, line)){
@@ -102,7 +111,12 @@ int main(int argc, char* argv[])
 
     for (size_t j = 0; j < wordsToFind.size(); j++)
     {
-        findWordWithDistance(p, wordsToFind[j], distanceToFind[j]);
+        std::vector<Word> result = std::vector<Word>();
+
+        findWordWithDistance(p, wordsToFind[j], distanceToFind[j], result);
+
+        SIZE = result.size();
+        IT = 0;
         
         std::sort(result.begin(), result.end(), compareDistance);
         std::sort(result.begin(), result.end(), compareFrequence);
