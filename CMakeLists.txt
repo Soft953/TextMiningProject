@@ -20,6 +20,7 @@ set(CompilerSRC
 
 set(AppSRC
     src/TextMiningApp/main.cc
+    src/damerauLevenshtein.cc
     src/reader.cc
     src/ptrie.cc
 )
@@ -34,7 +35,7 @@ link_directories(${CMAKE_SOURCE_DIR}/src)
 
 add_executable (TextMiningCompiler ${CompilerSRC})
 
-add_executable (TextMiningApp ${CompilerSRC})
+add_executable (TextMiningApp ${AppSRC})
 
 add_executable (UnitTest ${testSRC})
 
