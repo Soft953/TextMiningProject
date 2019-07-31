@@ -13,37 +13,12 @@ namespace
 
 }
 
-/*
-void Ptrie::print_rec(std::string word, std::shared_ptr<Node> node){
-    for(auto const& [key, val] : node->children){
-        std::string cpy = word;
-        cpy += key;
-        if(val->getFreq() > 0)
-            std::cout << cpy << std::endl;
-        if(val->children.size() >= 1)
-            print_rec(cpy, val); 
-    }
-}
-
-void Ptrie::print_ptrie(){
-    for(auto const& [key, val] : this->root){
-        std::string word = "";
-        word += key;
-        if(val->getFreq() > 0)
-            std::cout << word << std::endl;
-        if(val->children.size() >= 1)
-            print_rec(word, val);
-    }
-}
-*/
-
 struct Word
 {
     std::string str;
-    int freq;
-    int distance;
+    int freq = 0;
+    int distance = 0;
 };
-
 
 std::vector<Word> result;
 
@@ -57,7 +32,7 @@ bool compareFrequence(Word e1, Word e2) {
     return (e1.freq > e2.freq);
 }
 
-// Sort by frequence
+// Sort by Lexi
 bool compareLexi(Word e1, Word e2) {
     return e1.str.compare(e2.str);
 } 
@@ -117,7 +92,7 @@ int main(int argc, char* argv[])
 
     std::sort(result.begin(), result.end(), compareDistance);
     std::sort(result.begin(), result.end(), compareFrequence);
-    //std::sort(result.begin(), result.end(), compareLexi);
+    std::sort(result.begin(), result.end(), compareLexi);
 
     std::cout << "[";
     size_t i = 0;
