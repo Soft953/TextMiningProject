@@ -7,6 +7,8 @@
 
 Example :
 
+
+
 unsigned int Factorial( unsigned int number ) {
     return number <= 1 ? number : Factorial(number-1)*number;
 }
@@ -67,3 +69,4 @@ int serialiseTest(std::string ref) {
 TEST_CASE( "Serialisation test", "[Serialisation]" ) {
     REQUIRE( serialiseTest("b e ) f k ) ) ) c ) d g ) h ) i ) j ) ) )") == 0 );
 }
+

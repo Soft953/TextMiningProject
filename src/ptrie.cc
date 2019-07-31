@@ -132,14 +132,15 @@ void Ptrie::build(std::string path) {
 void Ptrie::made_rec(std::shared_ptr<Node> node){
     if(node->children.size() == 1){
         int ind = this->letter_list.size();
-        if(!node->asindex){
+        if(node->getFreq() > 0)
+            made_rec(node->children.begin()->second);
+        else if(!node->asindex){
             std::pair<int, int> tmp(ind, 1);
             node->setIndex(tmp);
             this->addLetter(node->children.begin()->first);
             auto acc = node->children.begin()->second;
             node->children = acc->children;
-            //if (acc->getFreq() > 0)
-            //    node->setFreq(acc->getFreq());
+            made_rec(node);
         }
         else{
             std::pair tmp = node->getIndex();
@@ -148,11 +149,10 @@ void Ptrie::made_rec(std::shared_ptr<Node> node){
             this->addLetter(node->children.begin()->first);
             auto acc = node->children.begin()->second;
             node->children = acc->children;
-            //if (acc->getFreq() > 0)
-            //    node->setFreq(acc->getFreq());
+            made_rec(node);
         }
-        made_rec(node);
-    } else {
+    }
+    else {
         for(auto [key, val] : node->children) {
             UNUSED(key);
             made_rec(val);
