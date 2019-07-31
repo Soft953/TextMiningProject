@@ -41,3 +41,10 @@ class Reader{
          */
         static void clearMmappedData(const char* filename, void* mmappedData, int fd);
 };
+
+    /*
+    auto [mmappedData, fd] = Reader().readFile(argv[1]);
+    
+    auto data = static_cast<char*>(mmappedData);
+    std::string data_str = std::string(data);
+    */
