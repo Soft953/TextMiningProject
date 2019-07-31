@@ -1,0 +1,48 @@
+\hypertarget{classNode}{}\doxysection{Node Class Reference}
+\label{classNode}\index{Node@{Node}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classNode_a612e7c692d22a54dca8041738a152c60}\label{classNode_a612e7c692d22a54dca8041738a152c60}} 
+{\bfseries Node} (int freq)
+\item 
+\mbox{\Hypertarget{classNode_abbe8bb928f44e7fda85218aca9bee55b}\label{classNode_abbe8bb928f44e7fda85218aca9bee55b}} 
+void {\bfseries set\+Freq} (int freq)
+\item 
+\mbox{\Hypertarget{classNode_ad3e0a83c41a2c38b0fb5fbb1735f85f1}\label{classNode_ad3e0a83c41a2c38b0fb5fbb1735f85f1}} 
+int {\bfseries get\+Freq} ()
+\item 
+\mbox{\Hypertarget{classNode_addb020824ddb7e612df312bb52e86362}\label{classNode_addb020824ddb7e612df312bb52e86362}} 
+void {\bfseries set\+Index} (std\+::pair$<$ int, int $>$ ind)
+\item 
+\mbox{\Hypertarget{classNode_a107aac527b16bba51936454f9125c931}\label{classNode_a107aac527b16bba51936454f9125c931}} 
+std\+::pair$<$ int, int $>$ {\bfseries get\+Index} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::map$<$ char, std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classNode}{Node}} $>$ $>$ \mbox{\hyperlink{classNode_ade118e81fcc0cc0b8021c82d35c2fab9}{children}}
+\item 
+bool \mbox{\hyperlink{classNode_a9b4983221ead9ae931abb1646d186d75}{asindex}} = false
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classNode_a9b4983221ead9ae931abb1646d186d75}\label{classNode_a9b4983221ead9ae931abb1646d186d75}} 
+\index{Node@{Node}!asindex@{asindex}}
+\index{asindex@{asindex}!Node@{Node}}
+\doxysubsubsection{\texorpdfstring{asindex}{asindex}}
+{\footnotesize\ttfamily bool Node\+::asindex = false}
+
+Check if the node contains compressed character in the letter\+\_\+list used with the Patricia Trie \mbox{\Hypertarget{classNode_ade118e81fcc0cc0b8021c82d35c2fab9}\label{classNode_ade118e81fcc0cc0b8021c82d35c2fab9}} 
+\index{Node@{Node}!children@{children}}
+\index{children@{children}!Node@{Node}}
+\doxysubsubsection{\texorpdfstring{children}{children}}
+{\footnotesize\ttfamily std\+::map$<$char,std\+::shared\+\_\+ptr$<$\mbox{\hyperlink{classNode}{Node}}$>$ $>$ Node\+::children}
+
+Store children node using map \textquotesingle{}character\textquotesingle{} -\/$>$ \mbox{\hyperlink{classNode}{Node}} 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/bourghs/\+Documents/\+Text\+Mining\+Project/src/ptrie.\+hh\item 
+/home/bourghs/\+Documents/\+Text\+Mining\+Project/src/ptrie.\+cc\end{DoxyCompactItemize}

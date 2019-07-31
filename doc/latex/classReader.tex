@@ -1,0 +1,43 @@
+\hypertarget{classReader}{}\doxysection{Reader Class Reference}
+\label{classReader}\index{Reader@{Reader}}
+
+
+{\ttfamily \#include $<$reader.\+hh$>$}
+
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static std\+::tuple$<$ void $\ast$, int $>$ \mbox{\hyperlink{classReader_ab2232314390526021d35d7aa5917cf5e}{read\+File}} (const char $\ast$filename)
+\item 
+static void \mbox{\hyperlink{classReader_a28f18e83778c10f83ce17e2c89837ac5}{clear\+Mmapped\+Data}} (const char $\ast$filename, void $\ast$mmapped\+Data, int fd)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\mbox{\hyperlink{classReader}{Reader}} Class
+
+All method used to simplifly mmap 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classReader_a28f18e83778c10f83ce17e2c89837ac5}\label{classReader_a28f18e83778c10f83ce17e2c89837ac5}} 
+\index{Reader@{Reader}!clearMmappedData@{clearMmappedData}}
+\index{clearMmappedData@{clearMmappedData}!Reader@{Reader}}
+\doxysubsubsection{\texorpdfstring{clearMmappedData()}{clearMmappedData()}}
+{\footnotesize\ttfamily void Reader\+::clear\+Mmapped\+Data (\begin{DoxyParamCaption}\item[{const char $\ast$}]{filename,  }\item[{void $\ast$}]{mmapped\+Data,  }\item[{int}]{fd }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+clear\+Mmapped\+Data
+
+unmmap a file and close the file descriptor \mbox{\Hypertarget{classReader_ab2232314390526021d35d7aa5917cf5e}\label{classReader_ab2232314390526021d35d7aa5917cf5e}} 
+\index{Reader@{Reader}!readFile@{readFile}}
+\index{readFile@{readFile}!Reader@{Reader}}
+\doxysubsubsection{\texorpdfstring{readFile()}{readFile()}}
+{\footnotesize\ttfamily std\+::tuple$<$ void $\ast$, int $>$ Reader\+::read\+File (\begin{DoxyParamCaption}\item[{const char $\ast$}]{filename }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+read\+File\+:
+
+mmap a file and return the mmapped data and the file descriptor 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/bourghs/\+Documents/\+Text\+Mining\+Project/src/reader.\+hh\item 
+/home/bourghs/\+Documents/\+Text\+Mining\+Project/src/reader.\+cc\end{DoxyCompactItemize}

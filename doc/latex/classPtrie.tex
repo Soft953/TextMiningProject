@@ -1,0 +1,100 @@
+\hypertarget{classPtrie}{}\doxysection{Ptrie Class Reference}
+\label{classPtrie}\index{Ptrie@{Ptrie}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classPtrie_a36de58fc9a52f96f5a4cd46c6b6b3be6}{add\+Letter}} (char letter)
+\item 
+void \mbox{\hyperlink{classPtrie_abcfbe2a5eaaec890e4840fd50089a4ca}{build}} (std\+::string path)
+\item 
+void \mbox{\hyperlink{classPtrie_a4109c2cd25c6141807bbad35422fa299}{made\+\_\+rec}} (std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classNode}{Node}} $>$ node)
+\item 
+void \mbox{\hyperlink{classPtrie_a62d663b898e8d2168f8d9eb092447027}{made\+\_\+patricia}} ()
+\item 
+void \mbox{\hyperlink{classPtrie_ab41f87d88dbd473767e349b13986a0a8}{print\+\_\+rec}} (std\+::string word, std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classNode}{Node}} $>$ node)
+\item 
+void \mbox{\hyperlink{classPtrie_a44b850837e144488a255cf671efc99aa}{print\+\_\+ptrie}} ()
+\item 
+void \mbox{\hyperlink{classPtrie_ab9b89453962ccbe8121e3eb59feb8c6f}{get\+Words}} ()
+\item 
+void \mbox{\hyperlink{classPtrie_a566ab2f195f6888dc21143978443d983}{get\+Words\+Rec}} (std\+::string word, std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classNode}{Node}} $>$ node)
+\item 
+std\+::string \mbox{\hyperlink{classPtrie_a9d3954b83e95c20c9d72970533f800f3}{serialize}} ()
+\item 
+void \mbox{\hyperlink{classPtrie_aeecbbfcd1c5cccdd6b502a43968258cc}{de\+Serialize}} (const std\+::string \&str)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classPtrie_a36de58fc9a52f96f5a4cd46c6b6b3be6}\label{classPtrie_a36de58fc9a52f96f5a4cd46c6b6b3be6}} 
+\index{Ptrie@{Ptrie}!addLetter@{addLetter}}
+\index{addLetter@{addLetter}!Ptrie@{Ptrie}}
+\doxysubsubsection{\texorpdfstring{addLetter()}{addLetter()}}
+{\footnotesize\ttfamily void Ptrie\+::add\+Letter (\begin{DoxyParamCaption}\item[{char}]{letter }\end{DoxyParamCaption})}
+
+Add a character into the letter\+\_\+list variable
+
+Used by the compressed node of the Patricia Trie \mbox{\Hypertarget{classPtrie_abcfbe2a5eaaec890e4840fd50089a4ca}\label{classPtrie_abcfbe2a5eaaec890e4840fd50089a4ca}} 
+\index{Ptrie@{Ptrie}!build@{build}}
+\index{build@{build}!Ptrie@{Ptrie}}
+\doxysubsubsection{\texorpdfstring{build()}{build()}}
+{\footnotesize\ttfamily void Ptrie\+::build (\begin{DoxyParamCaption}\item[{std\+::string}]{path }\end{DoxyParamCaption})}
+
+Build a Trie from a file.
+
+Store each character and frequency
+
+Can be compressed to a Patricia Trie using \mbox{\hyperlink{classPtrie_a62d663b898e8d2168f8d9eb092447027}{Ptrie\+::made\+\_\+patricia()}} \mbox{\Hypertarget{classPtrie_aeecbbfcd1c5cccdd6b502a43968258cc}\label{classPtrie_aeecbbfcd1c5cccdd6b502a43968258cc}} 
+\index{Ptrie@{Ptrie}!deSerialize@{deSerialize}}
+\index{deSerialize@{deSerialize}!Ptrie@{Ptrie}}
+\doxysubsubsection{\texorpdfstring{deSerialize()}{deSerialize()}}
+{\footnotesize\ttfamily void Ptrie\+::de\+Serialize (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{str }\end{DoxyParamCaption})}
+
+Build Patricia Trie from a serialized string \mbox{\Hypertarget{classPtrie_ab9b89453962ccbe8121e3eb59feb8c6f}\label{classPtrie_ab9b89453962ccbe8121e3eb59feb8c6f}} 
+\index{Ptrie@{Ptrie}!getWords@{getWords}}
+\index{getWords@{getWords}!Ptrie@{Ptrie}}
+\doxysubsubsection{\texorpdfstring{getWords()}{getWords()}}
+{\footnotesize\ttfamily void Ptrie\+::get\+Words (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Print all the word contained in the Patricia Trie (after compression with made\+\_\+patricia) \mbox{\Hypertarget{classPtrie_a566ab2f195f6888dc21143978443d983}\label{classPtrie_a566ab2f195f6888dc21143978443d983}} 
+\index{Ptrie@{Ptrie}!getWordsRec@{getWordsRec}}
+\index{getWordsRec@{getWordsRec}!Ptrie@{Ptrie}}
+\doxysubsubsection{\texorpdfstring{getWordsRec()}{getWordsRec()}}
+{\footnotesize\ttfamily void Ptrie\+::get\+Words\+Rec (\begin{DoxyParamCaption}\item[{std\+::string}]{word,  }\item[{std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classNode}{Node}} $>$}]{node }\end{DoxyParamCaption})}
+
+Recursive function called by \mbox{\hyperlink{classPtrie_ab9b89453962ccbe8121e3eb59feb8c6f}{Ptrie\+::get\+Words()}} \mbox{\Hypertarget{classPtrie_a62d663b898e8d2168f8d9eb092447027}\label{classPtrie_a62d663b898e8d2168f8d9eb092447027}} 
+\index{Ptrie@{Ptrie}!made\_patricia@{made\_patricia}}
+\index{made\_patricia@{made\_patricia}!Ptrie@{Ptrie}}
+\doxysubsubsection{\texorpdfstring{made\_patricia()}{made\_patricia()}}
+{\footnotesize\ttfamily void Ptrie\+::made\+\_\+patricia (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Compress the Trie into a Patricia Trie, remove useless node, set character into the letter\+\_\+list. Also set the index on each compressed node. \mbox{\Hypertarget{classPtrie_a4109c2cd25c6141807bbad35422fa299}\label{classPtrie_a4109c2cd25c6141807bbad35422fa299}} 
+\index{Ptrie@{Ptrie}!made\_rec@{made\_rec}}
+\index{made\_rec@{made\_rec}!Ptrie@{Ptrie}}
+\doxysubsubsection{\texorpdfstring{made\_rec()}{made\_rec()}}
+{\footnotesize\ttfamily void Ptrie\+::made\+\_\+rec (\begin{DoxyParamCaption}\item[{std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classNode}{Node}} $>$}]{node }\end{DoxyParamCaption})}
+
+Recursive function called by \mbox{\hyperlink{classPtrie_a62d663b898e8d2168f8d9eb092447027}{Ptrie\+::made\+\_\+patricia()}} \mbox{\Hypertarget{classPtrie_a44b850837e144488a255cf671efc99aa}\label{classPtrie_a44b850837e144488a255cf671efc99aa}} 
+\index{Ptrie@{Ptrie}!print\_ptrie@{print\_ptrie}}
+\index{print\_ptrie@{print\_ptrie}!Ptrie@{Ptrie}}
+\doxysubsubsection{\texorpdfstring{print\_ptrie()}{print\_ptrie()}}
+{\footnotesize\ttfamily void Ptrie\+::print\+\_\+ptrie (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Display all the word in the Trie (before compression with made\+\_\+patricia) \mbox{\Hypertarget{classPtrie_ab41f87d88dbd473767e349b13986a0a8}\label{classPtrie_ab41f87d88dbd473767e349b13986a0a8}} 
+\index{Ptrie@{Ptrie}!print\_rec@{print\_rec}}
+\index{print\_rec@{print\_rec}!Ptrie@{Ptrie}}
+\doxysubsubsection{\texorpdfstring{print\_rec()}{print\_rec()}}
+{\footnotesize\ttfamily void Ptrie\+::print\+\_\+rec (\begin{DoxyParamCaption}\item[{std\+::string}]{word,  }\item[{std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classNode}{Node}} $>$}]{node }\end{DoxyParamCaption})}
+
+Recursive function called by \mbox{\hyperlink{classPtrie_a44b850837e144488a255cf671efc99aa}{Ptrie\+::print\+\_\+ptrie()}} \mbox{\Hypertarget{classPtrie_a9d3954b83e95c20c9d72970533f800f3}\label{classPtrie_a9d3954b83e95c20c9d72970533f800f3}} 
+\index{Ptrie@{Ptrie}!serialize@{serialize}}
+\index{serialize@{serialize}!Ptrie@{Ptrie}}
+\doxysubsubsection{\texorpdfstring{serialize()}{serialize()}}
+{\footnotesize\ttfamily std\+::string Ptrie\+::serialize (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Return the serialized version of a Patricia Trie 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/bourghs/\+Documents/\+Text\+Mining\+Project/src/ptrie.\+hh\item 
+/home/bourghs/\+Documents/\+Text\+Mining\+Project/src/ptrie.\+cc\end{DoxyCompactItemize}
